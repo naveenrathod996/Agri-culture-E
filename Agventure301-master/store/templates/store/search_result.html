@@ -1,0 +1,96 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+{% if searched %}
+{% for product in products %}
+<h1 style="text-align: center; padding-top: 25px; font-size: 35px;">Results for '<span style="color: #27ae60;" class="notranslate">{{searched}}</span>'</h1><br>
+{% empty %}
+<h1 style="text-align: center; padding-top: 25px; font-size: 35px;">'<span style="color: #27ae60;" class="notranslate">{{searched}}</span>'<br> Sorry, we didn't find any product matching this search</h1>
+{% endfor %}
+{% endif %}
+<section class="product" id="product">
+    <div class="box-container">
+        {% if searched %}
+            {% for product in products %}
+            
+                <div class="box">
+                    <span class="discount notranslate">-{{product.get_discount|floatformat:0}}%</span>
+                    <div class="icons">
+                        <a href="#" class="fas fa-eye"></a>
+                    </div>
+                    <a href="" target="_blank"><img src="{{product.imageURL}}" alt="">
+                    <h3>{{product.name}}</h3></a>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="price">  ₹{{product.price|floatformat:2}} <span>  ₹{{product.orig|floatformat:2}} </span> </div>
+                    <button class="btn">View Product</button>
+                </div>
+            {% endfor %}
+
+            {% else %}
+            <h1 style="text-align: center; padding-top: 25px; font-size: 35px;">Please search for something</h1><br>
+                <script>alert('Please search for something!')</script>
+        {% endif %}
+    </div>
+</section>
+
+<!-- catergory section starts  -->
+
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>vegetables</h3>
+            <p>upto 25% off</p>
+            <a href="{% url 'vegetables' %}" target="_blank" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>fruits</h3>
+            <p>upto 30% off</p>
+            <a href="{% url 'fruits' %}" target="_blank" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+    <section class="deal" id="deal">
+
+        <div class="content">
+
+            <h3 class="title">deal of the day</h3>
+            <p>Don't miss it!</p>
+
+            <div class="count-down">
+                <div class="box">
+                    <h3 id="day">00</h3>
+                    <span>day</span>
+                </div>
+                <div class="box">
+                    <h3 id="hour">00</h3>
+                    <span>hour</span>
+                </div>
+                <div class="box">
+                    <h3 id="minute">00</h3>
+                    <span>minute</span>
+                </div>
+                <div class="box">
+                    <h3 id="second">00</h3>
+                    <span>second</span>
+                </div>
+            </div>
+
+            <a href="#" class="btn">check the deal</a>
+
+        </div>
+
+{% endblock content %}

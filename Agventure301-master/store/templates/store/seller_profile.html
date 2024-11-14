@@ -1,0 +1,119 @@
+{% extends 'store/seller_main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .flex-container {
+        padding-top: 10px;
+        display: flex;
+    }
+
+.flex-child {
+    padding: 10px;
+    flex: 1;
+    border-radius: 10px;
+    box-shadow: 5px 2px 20px #2c2c54;
+    justify-content: center;
+    font-size: large;
+    margin-right: 10px;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+    margin-left: 10px;
+}
+.tab{
+    display: inline-block;
+    margin-left: 40px;
+} 
+</style>
+<body>
+<div class="flex-container">
+
+<div class="flex-child magenta">
+    <p style="text-align: center;"><b>User Details</b></p><br>
+    <p><b style="color: #3366ff">Name</b><span class="tab"></span>:<span class="tab"></span>{{name}}</p><br>
+    <p style="text-transform: lowercase;"><b style="color: #3366ff">Email</b><span class="tab"></span>:<span class="tab"></span>{{email}}</p><br>
+    <p><b style="color: #3366ff">Last Login</b><span class="tab"></span>:<span class="tab"></span>{{last_login}}</p><br>
+</div>
+
+<div class="flex-child green">
+    <p style="text-align: center;"><b><span style="color: #3366ff;">{{name}}'s</span> Orders History</b></p><br>
+    <a href="{% url 'order_status' %}">
+    {% for order in orders %}
+        {% if order.name == name and order.complete %}
+                <div style="border: 3px solid #2c2c54; border-radius: 10px; padding: 2px; padding-left: 20%; padding-top: 25px;">
+                    <p><b style="color: #3366ff">Date ordered</b><span class="tab"></span>:<span class="tab"></span>{{order.date_ordered}}</p><br>
+                    <p><b style="color: #3366ff">Transaction id</b><span class="tab"></span>:<span class="tab"></span>{{order.transaction_id}}</p><br>
+                    </div>
+                <br>
+        {% endif %}
+    {% endfor %}
+    </a>
+</div>
+
+</div>
+
+<!-- catergory section starts  -->
+<br>
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>Crop prediction</h3>
+            <p>Find out crop to <br>grow in your farm</p>
+            <a href="{% url 'crop_prediction' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>Fertilizer Prediction</h3>
+            <p>Get informed advice <br>on fertilizer based on soil</p>
+            <a href="{% url 'fertilizer_prediction' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- category section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal" id="deal">
+
+    <div class="content">
+
+        <h3 class="title">deal of the day</h3>
+        <p>Don't miss it!</p>
+
+        <div class="count-down">
+            <div class="box">
+                <h3 id="day">00</h3>
+                <span>day</span>
+            </div>
+            <div class="box">
+                <h3 id="hour">00</h3>
+                <span>hour</span>
+            </div>
+            <div class="box">
+                <h3 id="minute">00</h3>
+                <span>minute</span>
+            </div>
+            <div class="box">
+                <h3 id="second">00</h3>
+                <span>second</span>
+            </div>
+        </div>
+
+        <a href="#" class="btn">check the deal</a>
+
+    </div>
+
+</section>
+
+<!-- deal section ends -->
+
+{% endblock content %}

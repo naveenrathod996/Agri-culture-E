@@ -1,0 +1,139 @@
+{% extends 'store/seller_main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .flex-container {
+        padding-top: 10px;
+    }
+
+.flex-child {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 2px 20px #2c2c54;
+    justify-content: center;
+    font-size: large;
+    margin-right: 10px;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.tab{
+    display: inline-block;
+    margin-left: 40px;
+} 
+</style>
+<body>
+<div class="flex-container">
+
+<div class="flex-child green">
+    <p style="text-align: center; font-size: larger;"><b><span style="color: #3366ff;">{{name}}'s</span> Orders History</b></p><br>
+    {% for order in orders %}
+        {% if order.name == name and order.complete %}
+                <div style="box-shadow: 5px 2px 20px #2c2c54;border: 3px solid #2c2c54;border-radius: 10px; padding: 2px; padding-top: 25px;">
+                    <p><b style="color: #3366ff">Date ordered</b><span class="tab"></span>:<span class="tab"></span>{{order.date_ordered}}</p><br>
+                    <p><b style="color: #3366ff">Transaction id</b><span class="tab"></span>:<span class="tab"></span>{{order.transaction_id}}</p><br>
+                    <p><b style="color: #3366ff">Payment Status</b><span class="tab"></span>:<span class="tab"></span>Paid</p><br>
+                    <p><b style="color: #3366ff">Order Status</b><span class="tab"></span>:<span class="tab"></span>
+                            {% if order.status == "3" %}
+                            <div style="margin-left: 15%;margin-right: 15%;">    
+                            <div class="w3-grey w3-round-xlarge">
+                                <div class="w3-container w3-green w3-round-xlarge" style="height:24px;width:100%; text-align: center;">Delivered</div>
+                            </div>
+                            </div>
+                            {% elif order.status == "2" %}
+                            <div style="margin-left: 15%;margin-right: 15%;">
+                            <div class="w3-grey w3-round-xlarge">
+                                <div class="w3-container w3-blue w3-round-xlarge" style="height:24px;width:62.5%; text-align: center;">Shipping</div>
+                            </div>
+                            </div>
+                            {% else %}
+                            <div style="margin-left: 15%;margin-right: 15%;">
+                                <div class="w3-grey w3-round-xlarge">
+                                <div class="w3-container w3-red w3-round-xlarge" style="height:24px;width:25%; text-align: center;">Order Placed</div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    </p><br>
+                    <!--
+                        <div class="w3-light-grey">
+                        <div class="w3-green" style="height:24px;width:25%"></div>
+                        </div><br>
+
+                        <div class="w3-light-grey">
+                        <div class="w3-red" style="height:24px;width:62.5%"></div>
+                        </div><br>
+                    -->
+                </div>
+                <br>
+                {% endif %}
+    {% endfor %}
+
+</div>
+
+</div>
+
+<!-- catergory section starts  -->
+<br>
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>Crop prediction</h3>
+            <p>Find out crop to <br>grow in your farm</p>
+            <a href="{% url 'crop_prediction' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>Fertilizer Prediction</h3>
+            <p>Get informed advice <br>on fertilizer based on soil</p>
+            <a href="{% url 'fertilizer_prediction' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+<!-- category section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal" id="deal">
+
+    <div class="content">
+
+        <h3 class="title">deal of the day</h3>
+        <p>Don't miss it!</p>
+
+        <div class="count-down">
+            <div class="box">
+                <h3 id="day">00</h3>
+                <span>day</span>
+            </div>
+            <div class="box">
+                <h3 id="hour">00</h3>
+                <span>hour</span>
+            </div>
+            <div class="box">
+                <h3 id="minute">00</h3>
+                <span>minute</span>
+            </div>
+            <div class="box">
+                <h3 id="second">00</h3>
+                <span>second</span>
+            </div>
+        </div>
+
+        <a href="#" class="btn">check the deal</a>
+
+    </div>
+
+</section>
+
+<!-- deal section ends -->
+
+{% endblock content %}

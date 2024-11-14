@@ -1,0 +1,196 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+
+<section class="product" id="product">
+
+    <h1 class="heading">Fresh <span>vegetables</span></h1>
+
+    <div class="box-container">
+
+        {% for product in products %}
+            {% if product.vege %}
+            <div class="box">
+                <span class="discount notranslate">-{{product.get_discount|floatformat:0}}%</span>
+                <div class="icons">
+                    <a data-product="{{product.id}}" data-action="add" class="fas fa-shopping-cart update-cart"></a>
+                    <a href="#" class="fas fa-eye"></a>
+                </div>
+                <a href="" target="_blank"><img src="{{product.imageURL}}" alt="">
+                <h3>{{product.name}}</h3></a>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="price">  ₹{{product.price|floatformat:2}} <span>  ₹{{product.orig|floatformat:2}} </span> </div>
+                <!--<div class="quantity">
+                    <span>quantity : </span>
+                    <input type="number" onchange="setTwoNumberDecimal" min="1" max="50" step="1" value="1">
+                    <span> - kg </span>
+                </div> -->
+                <button data-product="{{product.id}}" data-action="add" class="btn update-cart">add to cart</button>
+            </div>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<!-- catergory section starts  -->
+
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>vegetables</h3>
+            <p>upto 25% off</p>
+            <a href="{% url 'vegetables' %}" target="_blank" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>fruits</h3>
+            <p>upto 30% off</p>
+            <a href="{% url 'fruits' %}" target="_blank" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- category section ends -->
+
+<!-- product section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal" id="deal">
+
+    <div class="content">
+
+        <h3 class="title">deal of the day</h3>
+        <p>Thanks for choosing us!</p>
+        <div class="count-down">
+            <div class="box">
+                <h3 id="day">00</h3>
+                <span>day</span>
+            </div>
+            <div class="box">
+                <h3 id="hour">00</h3>
+                <span>hour</span>
+            </div>
+            <div class="box">
+                <h3 id="minute">00</h3>
+                <span>minute</span>
+            </div>
+            <div class="box">
+                <h3 id="second">00</h3>
+                <span>second</span>
+            </div>
+        </div>
+
+        <a href="#" class="btn">check the deal</a>
+
+    </div>
+
+</section>
+
+<section class="contact" id="contact">
+
+    <h1 class="heading"> <span>contact</span> us </h1>
+
+    <form action="">
+
+        <div class="inputBox">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+        </div>
+
+        <div class="inputBox">
+            <input type="number" placeholder="Number">
+            <input type="text" placeholder="Subject">
+        </div>
+
+        <textarea placeholder="Message" name="" id="" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="send message" class="btn">
+
+    </form>
+
+</section>
+
+<!-- contact section ends -->
+
+<!-- newsletter section starts  -->
+
+<section class="newsletter">
+
+    <h3>subscribe us for latest updates</h3>
+
+    <form action="">
+        <input class="box" type="email" placeholder="Enter your email">
+        <input type="submit" value="subscribe" class="btn">
+    </form>
+
+</section>
+
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <a href="#" class="logo"><i class="fas fa-shopping-basket"></i>agventure</a>
+            <p>Thanks for choosing us!</p>
+            <div class="share">
+                <a href="https://www.facebook.com/CBIThyderabad" class="btn fab fa-facebook-f" style="border-radius: 25%;"></a>
+                <a href="https://twitter.com/CBIThyd" class="btn fab fa-twitter" style="border-radius: 25%;"></a>
+                <a href="http://www.instagram.com/cbithyderabad" class="btn fab fa-instagram" style="border-radius: 25%;"></a>
+                <a href="https://www.linkedin.com/company/cbit-technologies/" class="btn fab fa-linkedin" style="border-radius: 25%;"></a>
+            </div>
+        </div>
+        
+        <div class="box">
+            <h3>our helping hands</h3>
+            <div class="links">
+                <a href="https://www.cbit.ac.in/">CBIT</a>
+                <a href="https://ts.meeseva.telangana.gov.in/meeseva/home.htm">Mee Seva</a>
+                <a href="https://en.wikipedia.org/wiki/Agriculture_in_India">Farmers</a>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>quick links</h3>
+            <div class="links">
+                <a href="#home">home</a>
+                <a href="#category">category</a>
+                <a href="#product">product</a>
+                <a href="#deal">deal</a>
+                <a href="#contact">contact</a>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>follow us on</h3>
+            <div class="links">
+                <a href="https://www.facebook.com/CBIThyderabad">facebook</a>
+                <a href="https://twitter.com/CBIThyd">twitter</a>
+                <a href="http://www.instagram.com/cbithyderabad">instagram</a>
+                <a href="https://www.linkedin.com/company/cbit-technologies/">linked-in</a>
+            </div>
+        </div>
+
+    </div>
+
+    <h1 class="credit"> created by <span> Hanoch and Pramod </span> | all rights reserved! </h1>
+
+</section>
+
+{% endblock content %}

@@ -1,0 +1,373 @@
+{% extends 'store/seller_main.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+
+.row{
+        display:-ms-flexbox;
+        display:flex;
+        -ms-flex-wrap:wrap;
+        flex-wrap:wrap;
+        margin-right:15px;
+        margin-left:15px}
+
+    body{
+	background-color: hsl(0, 0%, 98%);
+}
+
+h1,h2,h3,h4,h5,h6{
+	color:hsl(0, 0%, 30%);
+}
+
+.box-element{
+	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
+	margin-top: 10px;
+}
+
+.btn{
+	border-radius: 0;
+}
+
+.form-field{
+	width:280px;
+	display: inline-block;
+	border: 1.5px solid #2c2c54;
+    border-radius: 5px;
+}
+.form-control{
+    width: 100%;
+	padding: 3.5%;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+
+}
+
+.row-image{
+	width: 60px;
+    height: 50px;
+}
+
+.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+	
+
+}
+
+.chg-quantity{
+	width: 12px;
+	cursor: pointer;
+	display: block;
+	margin-top: 5px;
+	transition:.1s;
+}
+
+.chg-quantity:hover{
+	opacity: .6;
+}
+
+.ok1{
+    width: 700px;
+}
+
+.ok2{
+    width: 600px;
+}
+
+.hidden{
+	display: none!important;
+}
+
+@media(max-width:1150px){
+
+    .ok1{
+        width: 100%;
+    }
+    .ok2{
+        width: 100%;
+    }
+
+    .form-control{
+    width: 100%;
+	padding: 3%;
+}
+}
+
+/* Media query for mobile viewport */
+@media screen and (max-width: 400px) {
+            #paypal-button-container {
+                width: 100%;
+            }
+        }
+        
+        /* Media query for desktop viewport */
+        @media screen and (min-width: 400px) {
+            #paypal-button-container {
+                width: 250px;
+            }
+        }
+
+
+</style>    
+
+<div class="row">
+	<div class="col-lg-6 ok1" style="padding: 10px;">
+		<div class="box-element" id="form-wrapper" style="display: flex; justify-content: center;">
+            <form id="form">
+                <div id="user-info">
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="name" placeholder="Name">
+                    </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="email" name="email" placeholder="Email">
+                    </div>
+                </div>
+                
+                <div id="shipping-info">
+                    <hr>
+                    <p style="font-size: x-large;padding-top: 3%;">Shipping Information:</p>
+                    <hr>
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="address" placeholder="Address">
+                    </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="city" placeholder="City">
+                    </div>
+                    <br><br><div class="form-field">
+                        <input required class="form-control" type="text" name="state" placeholder="State">
+                    </div>
+                    <div class="form-field">
+                        <input required class="form-control" type="text" name="zipcode" placeholder="Zip code">
+                    </div>
+                </div>
+                <hr>
+                <input id="form-button" class="btn" type="submit" value="Continue" style="width: 100%;">
+            </form>
+		</div>
+        <div class="box-element hidden" id="payment-info" style="display: flex; justify-content: center;">
+            <p style="font-size: large; padding-top: 2px;">Payment Options</p>
+            <!--<button id="make-payment" class="btn">Make payment</button>-->
+            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" id="make-payment" alt="Check out with PayPal" />
+        </div>
+	</div>
+
+	<div class="col-lg-6 ok2" style="padding: 10px;">
+		<div class="box-element">
+            <a  class="btn btn-outline-dark" href="{% url 'seller_cart' %}">&#x2190; Back to Cart</a>
+            <hr>
+            <br>
+            <h3 style="font-size: x-large; text-align: center; color: #2c2c54;"><b>Order Summary</b></h3>
+            <br>
+            <hr>
+            <div class="cart-row">
+                <div style="flex:2; font-size: medium; color:#2c2c54;"><p><b>Product Image</b></p></div>
+                <div style="flex:2; font-size: medium; color:#2c2c54;"><p><b>Product Name</b></p></div>
+                <div style="flex:1; font-size: medium; color:#2c2c54;"><p><b>Product Price</b></p></div>
+                <div style="flex:1; font-size: medium; color:#2c2c54;"><p><b>Product Quantity</b></p></div>
+            </div>
+            {% for item in items %}
+            <br>
+            <div class="cart-row">
+                <div style="flex:2; font-size: medium;"><img class="row-image" src="{{item.product.imageURL}}"></div>
+                <div style="flex:2; font-size: medium; color:#2c2c54;"><p>{{item.product.name}}</p></div>
+                <div style="flex:1; font-size: medium; color:#2c2c54;"><p>₹{{item.product.price}}</p></div>
+                <div style="flex:1; font-size: medium; color:#2c2c54;"><p>{{item.quantity}}KG</p></div>
+            </div>
+            {% endfor %}
+
+            <h5 style="font-size: x-large; color:#2c2c54;">Items: {{order.get_cart_items}}</h5>
+            <h5 style="font-size: x-large; color:#2c2c54;">Total: ₹{{order.get_cart_total|floatformat:2}}</h5>
+        </div>
+	</div>
+</div>
+
+<!-- catergory section starts  -->
+<br>
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>vegetables</h3>
+            <p>upto 25% off</p>
+            <a href="{% url 'vegetables' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>fruits</h3>
+            <p>upto 30% off</p>
+            <a href="{% url 'fruits' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- category section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal" id="deal">
+
+    <div class="content">
+
+        <h3 class="title">deal of the day</h3>
+        <p>Don't miss it!</p>
+
+        <div class="count-down">
+            <div class="box">
+                <h3 id="day">00</h3>
+                <span>day</span>
+            </div>
+            <div class="box">
+                <h3 id="hour">00</h3>
+                <span>hour</span>
+            </div>
+            <div class="box">
+                <h3 id="minute">00</h3>
+                <span>minute</span>
+            </div>
+            <div class="box">
+                <h3 id="second">00</h3>
+                <span>second</span>
+            </div>
+        </div>
+
+        <a href="#" class="btn">check the deal</a>
+
+    </div>
+
+</section>
+
+<!-- deal section ends -->
+
+<!-- contact section starts  -->
+
+<section class="contact" id="contact">
+
+    <h1 class="heading"> <span>contact</span> us </h1>
+
+    <form action="">
+
+        <div class="inputBox">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+        </div>
+
+        <div class="inputBox">
+            <input type="number" placeholder="Number">
+            <input type="text" placeholder="Subject">
+        </div>
+
+        <textarea placeholder="Message" name="" id="" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="send message" class="btn">
+
+    </form>
+
+</section>
+
+<!-- contact section ends -->
+
+<!-- newsletter section starts  -->
+
+<section class="newsletter">
+
+    <h3>subscribe us for latest updates</h3>
+
+    <form action="">
+        <input class="box" type="email" placeholder="Enter your email">
+        <input type="submit" value="subscribe" class="btn">
+    </form>
+
+</section>
+
+<!-- newsletter section ends -->
+
+<!-- custom js file link  -->
+
+<script type="text/javascript">
+
+    var total = '{{order.get_cart_total}}'
+
+    if('{{order.get_cart_total}}' != 0){
+
+    var form = document.getElementById('form')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Form Submitted...')
+        document.getElementById('form-button').classList.add("hidden");
+        document.getElementById('payment-info').classList.remove("hidden");
+    })
+
+    document.getElementById('make-payment').addEventListener('click', function(e){
+        submitFormData()
+    })
+
+    function submitFormData(){
+        console.log('Payment button clicked')
+
+        var userFormData = {
+            'name': null,
+            'email': null,
+            'total': total,
+        }
+        var shippingInfo = {
+            'address': null,
+            'city': null,
+            'state': null,
+            'zipcode': null,
+        }
+
+        userFormData.name=form.name.value
+        userFormData.email=form.email.value
+
+        shippingInfo.address=form.address.value
+        shippingInfo.city=form.city.value
+        shippingInfo.state=form.state.value
+        shippingInfo.zipcode=form.zipcode.value
+
+
+
+        var url = "/process_order/"
+        fetch(url, {
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'form': userFormData, 'shipping': shippingInfo}),
+
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+            alert('Transaction completed');
+            window.location.href = "{% url 'seller_home' %}"
+        })
+    }
+}
+else{
+    alert('Please add items in cart!');
+    window.location.href = "{% url 'seller_cart' %}"
+}
+</script>
+
+
+{% endblock content %}

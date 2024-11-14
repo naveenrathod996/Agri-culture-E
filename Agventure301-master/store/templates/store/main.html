@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="notranslate">Agventure</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  
+    </script>  
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">  
+    </script>  
+    
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- custom css file link  -->
+    {% if user.is_authenticated %}
+            {% load static %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/nonauth_style.css' %}">
+    {% endif %}
+
+
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getToken(name){
+            var cookieValue = null;
+            if(document.cookie && document.cookie !== ''){
+                var cookies = document.cookie.split(';');
+                for (var i = 0;i < cookies.length; i++){
+                    var cookie = cookies[i].trim();
+                    //Does this cookie string begin with the name we want?
+                    if(cookie.substring(0, name.length + 1) === (name + '=')) 
+                    {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken');
+
+        
+
+    </script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+        </script>
+        
+        <script src="{% static 'js/translate.js' %}"></script>
+
+        <style>
+            *,
+            *::before,
+            *::after {
+              box-sizing: border-box;
+              -webkit-box-sizing: border-box;
+            }
+            
+            
+            /*.dropdown {
+              margin: 0;
+              padding: 0;
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: inline;
+              /*display: flex;
+              -ms-flex-wrap: wrap;
+              flex-wrap: wrap;
+              list-style: none;
+            }*/
+            
+            .dropdown li {
+              position: relative;
+            }
+            
+            .dropdown li a {
+              display: inline;
+              height: 50px;
+              line-height: 50px;
+              cursor: pointer;
+              text-decoration: none;
+            }
+            
+            .dropdown li ul {
+              position: absolute;
+              margin: 0;
+              padding: 0;
+              list-style: none;
+              background-color: white;
+              width: 200px;
+              left: 0;
+              max-height: 0;
+              -webkit-transform: perspective(400) rotate3d(1, 0, 0, -90deg);
+              transform: perspective(400) rotate3d(1, 0, 0, -90deg);
+              -webkit-transition: 350ms;
+              -o-transition: 350ms;
+              transition: 350ms;
+            }
+
+            .dropdown li ul li{
+                /*border-bottom: 1px ridge grey;
+                border-left: 1px ridge grey;
+                border-right: 1px ridge grey;*/
+                border: 1px inset grey;
+            }
+            
+            .dropdown li ul li a {
+              height: 35px;
+              line-height: 35px;
+              color: #2c2c54;
+            }
+            
+            .dropdown li ul li a:hover {
+              background-color: white;
+              color: #ffffff;
+            }
+            
+            .dropdown li:hover>ul {
+              max-height: 400px;
+              -webkit-transform: perspective(400) rotate3d(0, 0, 0, 0);
+              transform: perspective(400) rotate3d(0, 0, 0, 0);
+            }
+            
+            .dropdown li:hover>a {
+              background-color: #ffffff;
+              color: #2c2c54;
+            }
+            .section{
+                position: relative;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+            .section h1{
+                text-align: center;
+                font-size: 6rem;
+                background: #fff;
+                border-radius: 10px;
+                padding: 20px;
+                z-index: 1;
+                opacity: 0.5;
+            }
+            video{
+                width: 100%;
+            }
+
+            .cont{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
+            </style>
+
+</head>
+<body>
+    <!-- header section starts  -->
+
+<header>
+
+    <div class="header-1">
+        <a href="{% url 'store' %}" class="logo notranslate"><i class="fas fa-shopping-basket"></i>agventure</a>
+        {% if user.is_authenticated %}
+        <form action="{% url 'search_result' %}" class="search-box-container" method=POST>
+            
+            {% csrf_token %}
+
+            <input type="search" name="searched" id="search-box" placeholder="Search here...">
+            <label for="search" class="fas fa-search"></label>
+        </form>
+        {% endif %}
+
+    </div>
+    <script>
+        /*$( function() {
+          var availableTags = [
+              {% for language in languages %}
+                  "{{language.name}}",
+              {% endfor %}
+          ];
+          $( "#search-box" ).autocomplete({
+            source: availableTags
+          });
+        } );*/
+    </script>
+    <div class="header-2">
+
+        <div id="menu-bar" class="fas fa-bars"></div>
+
+        <nav class="navbar">
+        {% if user.is_authenticated %}
+            <a href="{% url 'store' %}">home</a>
+            <a href="#category">category</a>
+            <a href="#product">product</a>
+            <a href="#deal">deal</a>
+            <a href="#contact">contact</a>
+        {% else %}
+            <a href="{% url 'buyer_register' %}" style="font-size: large;"><i class="fas fa-user-plus"></i><b>  Register as <span style="color: #27ae60;">consumer</span></b></a>
+            <a href="{% url 'buyer_login' %}" style="font-size: large;"><i class="fas fa-sign-in-alt"></i><b>  Login as <span style="color: #27ae60;">consumer</span></b></a>
+            <a href="{% url 'seller_register' %}" style="font-size: large;"><i class="fas fa-user-plus"></i><b>  Register as <span style="color: #3366ff;">farmer</span></b></a>
+            <a href="{% url 'seller_login' %}" style="font-size: large;"><i class="fas fa-sign-in-alt"></i><b>  Login as <span style="color: #3366ff;">farmer</span></b></a>
+            <a href="{% url 'admin:index' %}" target="_blank" style="font-size: large;"><i class="fas fa-sign-in-alt"></i><b>  Login as <span style="color: grey;">Admin</span></b></a>
+        {% endif %}
+        </nav>
+
+        <div class="icons">
+        {% if user.is_authenticated %}
+            <a href="{% url 'cart' %}" class="fas fa-cart-plus"><sup id="cart-total" style="background-color: #27ae60; border-radius: 50%; color: white; font-size: large;">{{cartItems}}</sup></a>
+        {% endif %}
+            {% if logged %}
+            <ul class="dropdown" style="display: inline; list-style-type: none;">
+                <li style="display: inline;"><a class="fas fa-user notranslate"><span> {{name}}</span></a>
+                    <ul>
+                        <li><a href="{% url 'profile' %}" style="font-size: large;"><i class="fas fa-id-badge"></i><b>  My Profile</b></a></li>
+                        <li><a href="{% url 'order_status' %}" style="font-size: large;"><i class="fas fa-clipboard-list"></i><b>  Orders</b></a></li>
+                        <li><a href="{% url 'logout' %}" style="font-size: large;"><i class="fas fa-sign-out-alt"></i><b>  Logout</b></a></li>
+                    </ul>
+                </li>
+            </ul>
+         
+            <ul class="dropdown" style="display: inline; list-style-type: none;">
+                <li style="display: inline;"><a class="fas fa-sign-in-alt"><span class="font-size: medium;"> Register</span></a>
+                    <ul>
+                        <li><a href="{% url 'buyer_register' %}" style="font-size: large;"><i class="fas fa-user-plus"></i><b>  Register as <span style="color: #27ae60;">consumer/span></b></a></li>
+                        <li><a href="{% url 'buyer_login' %}" style="font-size: large;"><i class="fas fa-sign-in-alt"></i><b>  Login as <span style="color: #27ae60;">consumer</span></b></a></li>
+                        <li><a href="{% url 'seller_register' %}" style="font-size: large;"><i class="fas fa-user-plus"></i><b>  Register as <span style="color: #3366ff;">farmer</span></b></a></li>
+                        <li><a href="{% url 'seller_login' %}" style="font-size: large;"><i class="fas fa-sign-in-alt"></i><b>  Login as <span style="color: #3366ff;">farmer</span></b></a></li>
+                        <li><a href="{% url 'admin:index' %}" target="_blank" style="font-size: large;"><i class="fas fa-sign-in-alt"></i><b>  Login as <span style="color: grey;">Admin</span></b></a></li>
+                    </ul>
+                </li>
+                <li><a class="fas fa-sign-in-alt"><span class="font-size: medium;"> Register</span></a>
+                    <ul>
+                        <li><a href="#">Menu - 1</a></li>
+                        <li><a href="#">Menu - 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="trans" style="display: inline;">
+                <style>.header-2 .icons .trans a{font-size: 1.5rem;}</style>
+                <div id="google_translate_element"></div>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</header>
+{% if user.is_authenticated %}
+<!-- header section ends -->
+    {% block content %}
+
+    {% endblock content %}
+
+
+    
+    </section>
+    {% else %}
+    <div class="section">
+		<h1><span style="color: #cc9900">Welcome</span> to Agventure</h1>
+		<div class="cont">
+		<video autoplay loop muted>
+			<source src="{% static 'images/Agventure.mp4' %}" type="video/mp4">
+		</video>
+		</div>
+	</div>
+    {% endif %}
+    <section class="footer">
+
+        <div class="box-container">
+    
+            <div class="box">
+                <a href="#" class="logo notranslate"><i class="fas fa-shopping-basket"></i>agventure</a>
+                <p>Thanks for choosing us!</p>
+                <div class="share">
+                    <a href="https://www.facebook.com/CBIThyderabad" class="btn fab fa-facebook-f" style="border-radius: 25%;"></a>
+                    <a href="https://twitter.com/CBIThyd" class="btn fab fa-twitter" style="border-radius: 25%;"></a>
+                    <a href="http://www.instagram.com/cbithyderabad" class="btn fab fa-instagram" style="border-radius: 25%;"></a>
+                    <a href="https://www.linkedin.com/company/cbit-technologies/" class="btn fab fa-linkedin" style="border-radius: 25%;"></a>
+                </div>
+            </div>
+            
+            <div class="box">
+                <h3>our helping hands</h3>
+                <div class="links">
+                    <a href="https://www.cbit.ac.in/">CBIT</a>
+                    <a href="https://ts.meeseva.telangana.gov.in/meeseva/home.htm">Mee Seva</a>
+                    <a href="https://en.wikipedia.org/wiki/Agriculture_in_India">Farmers</a>
+                </div>
+            </div>
+    
+            <div class="box">
+                <h3>quick links</h3>
+                <div class="links">
+                    <a href="#home">home</a>
+                    <a href="#category">category</a>
+                    <a href="#product">product</a>
+                    <a href="#deal">deal</a>
+                    <a href="#contact">contact</a>
+                </div>
+            </div>
+    
+            <div class="box">
+                <h3>follow us on</h3>
+                <div class="links">
+                    <a href="https://www.facebook.com/CBIThyderabad">facebook</a>
+                    <a href="https://twitter.com/CBIThyd">twitter</a>
+                    <a href="http://www.instagram.com/cbithyderabad">instagram</a>
+                    <a href="https://www.linkedin.com/company/cbit-technologies/">linked-in</a>
+                </div>
+            </div>
+    
+        </div>
+    
+        
+    
+    </section>
+    {% if user.is_authenticated %}
+    {% endif %}
+</body>
+</html>

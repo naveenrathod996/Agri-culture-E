@@ -1,0 +1,232 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+
+    <style>
+    body{
+        background-color: hsl(0, 0%, 98%);
+    }
+
+    h1,h2,h3,h4,h5,h6{
+        color:hsl(0, 0%, 30%);
+    }
+
+    .box-element{
+        box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 0px 20px 0px 20px;
+    }
+
+    .col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12{
+        margin-top: 10px;
+    }
+
+    .btn{
+        border-radius: 0;
+    }
+
+    .row-image{
+        width: 60px;
+        height: 50px;
+        padding-left: 10px;
+    }
+
+    .cart-row{
+        display: flex;
+        align-items: flex-stretch;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ececec;
+
+    }
+
+    .quantity{
+        display: inline-block;
+        font-weight: 700;
+        padding-right:10px;
+        
+
+    }
+
+    .chg-quantity{
+        width: 12px;
+        cursor: pointer;
+        display: block;
+        margin-top: 5px;
+        transition:.1s;
+    }
+
+    .chg-quantity:hover{
+        opacity: 0.6;
+    }
+    
+
+
+    </style>    
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="box-element">
+            <a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190 Continue Shopping</a>
+            <br>
+            <br>
+            <table class="">
+                <tr>
+                    <th><h1>Items: {{order.get_cart_items}}</h1></th>
+                    <th><h1 style="margin-left: 445px;">Total: ₹{{order.get_cart_total|floatformat:2}}</h1></th>
+                    <th>
+                        <a style="margin-left: 500px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout&#8594</a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        {% if cartItems != 0 %}
+		<br>
+		<div class="box-element">
+            <div class="cart-row">
+                <div style="flex:2; font-size: large;"><strong>Product</strong></div>
+                <div style="flex:2; font-size: large;"><strong>Item</strong></div>
+                <div style="flex:1; font-size: large;"><strong>Price</strong></div>
+                <div style="flex:1.25; font-size: large;"><strong>Quantity (in KG)</strong></div>
+                <div style="flex:1; font-size: large;"><strong>Total</strong></div>
+            </div>
+            
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+                <div style="flex:2; font-size: medium;"><p>{{item.product.name}}</p></div>
+                <div style="flex:1; font-size: medium;"><p>₹{{item.product.price|floatformat:2}}</p></div>
+                <div style="flex:1.2; font-size: 20px;">
+                    <p class="quantity">{{item.quantity}}</p>
+                    <div class="quantity">
+                    {% if item.product.prod_quantity != 0 %}
+                        <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" style="size: 0.4px;" src="{% static  'images/arrow-up.png' %}">                
+                    {% endif %}
+                        <img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" style="size: 0.4px;" src="{% static  'images/arrow-down.png' %}">
+                    </div>
+                </div>
+                <div style="flex:1; font-size: medium;"><p>₹{{item.get_total|floatformat:2}}</p></div>
+            </div>
+            {% endfor %}
+        </div>
+            {% else %}
+            <br>
+            <div class="box-element">
+                    <h1 style="text-align: center;">No Items in Cart</h1>
+            </div>
+            {% endif %}
+	</div>
+</div>
+
+
+<!-- catergory section starts  -->
+
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>vegetables</h3>
+            <p>upto 25% off</p>
+            <a href="{% url 'vegetables' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>fruits</h3>
+            <p>upto 30% off</p>
+            <a href="{% url 'fruits' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- category section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal" id="deal">
+
+    <div class="content">
+
+        <h3 class="title">deal of the day</h3>
+        <p>Don't miss it!</p>
+
+        <div class="count-down">
+            <div class="box">
+                <h3 id="day">00</h3>
+                <span>day</span>
+            </div>
+            <div class="box">
+                <h3 id="hour">00</h3>
+                <span>hour</span>
+            </div>
+            <div class="box">
+                <h3 id="minute">00</h3>
+                <span>minute</span>
+            </div>
+            <div class="box">
+                <h3 id="second">00</h3>
+                <span>second</span>
+            </div>
+        </div>
+
+        <a href="#" class="btn">check the deal</a>
+
+    </div>
+
+</section>
+
+<!-- deal section ends -->
+
+<!-- contact section starts  -->
+
+<section class="contact" id="contact">
+
+    <h1 class="heading"> <span>contact</span> us </h1>
+
+    <form action="">
+
+        <div class="inputBox">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+        </div>
+
+        <div class="inputBox">
+            <input type="number" placeholder="Number">
+            <input type="text" placeholder="Subject">
+        </div>
+
+        <textarea placeholder="Message" name="" id="" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="send message" class="btn">
+
+    </form>
+
+</section>
+
+<!-- contact section ends -->
+
+<!-- newsletter section starts  -->
+
+<section class="newsletter">
+
+    <h3>subscribe us for latest updates</h3>
+
+    <form action="">
+        <input class="box" type="email" placeholder="Enter your email">
+        <input type="submit" value="subscribe" class="btn">
+    </form>
+
+</section>
+
+<!-- newsletter section ends -->
+
+
+
+{% endblock content %}

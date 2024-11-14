@@ -1,0 +1,177 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% if customer.type == "2" %}
+    <meta http-equiv = "refresh" content = "0; url = {% url 'seller_home' %}" />
+    {% endif %}
+{% endif %}
+<!-- home section starts  -->
+
+<section class="home" id="home">
+
+    <div class="image">
+        <img src="{% static 'images/home-img.png' %}" alt="">
+    </div>
+
+    <div class="content">
+        <span>fresh and organic</span>
+        <h3>your daily need products</h3>
+        <a href="#product" class="btn">get started</a>
+    </div>
+
+</section>
+
+<!-- home section ends -->
+
+<!-- catergory section starts  -->
+
+<section class="banner-container" id="category">
+
+    <div class="banner">
+        <img src="{% static 'images/banner-1.jpg' %}" alt="">
+        <div class="content">
+            <h3>vegetables</h3>
+            <p>upto 25% off</p>
+            <a href="{% url 'vegetables' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <img src="{% static 'images/banner-2.jpg' %}" alt="">
+        <div class="content">
+            <h3>fruits</h3>
+            <p>upto 30% off</p>
+            <a href="{% url 'fruits' %}" class="btn">check out</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- category section ends -->
+
+<!-- product section starts  -->
+
+
+<section class="product" id="product">
+    <h1 class="heading">latest <span>products</span></h1>
+
+    <div class="box-container">
+        {% for product in products %}
+        {% if product.isseed is not True %}
+        <div class="box">
+            <span class="discount notranslate">-{{product.get_discount|floatformat:0}}%</span>
+            <div class="icons">
+                <a data-product="{{product.id}}" data-action="{% if product.prod_quantity != 0 %}add{% endif %}" class="fas fa-shopping-cart {% if product.prod_quantity != 0 %}update-cart{% endif %}"></a>
+                <a href="#" class="fas fa-eye"></a>
+            </div>
+            <a href="" target="_blank"><img src="{{product.imageURL}}" alt="">
+            <h3>{{product.name}}</h3></a>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+            <div class="price">  ₹{{product.price|floatformat:2}} <span>  ₹{{product.orig|floatformat:2}} </span> </div>
+            <!--<div class="quantity">
+                <span>quantity : </span>
+                <input type="number" onchange="setTwoNumberDecimal" min="1" max="50" step="1" value="1">
+                <span> - kg </span>
+            </div> -->
+            {% if product.prod_quantity != 0 %}
+                <p style="color: #27ae60"><b>In Stock</b></p>
+            {% else %}
+                <p style="color: rgb(243, 24, 24)"><b>Sorry! Out of Stock</b></p>
+            {% endif %}
+            <button data-product="{{product.id}}" data-action="{% if product.prod_quantity != 0 %}add{% endif %}" class="btn {% if product.prod_quantity != 0 %}update-cart{% endif %}">Add to cart</button>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+</section>
+<!-- product section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal" id="deal">
+
+    <div class="content">
+
+        <h3 class="title">deal of the day</h3>
+        <p>Don't miss it!</p>
+
+        <div class="count-down">
+            <div class="box">
+                <h3 id="day">00</h3>
+                <span>day</span>
+            </div>
+            <div class="box">
+                <h3 id="hour">00</h3>
+                <span>hour</span>
+            </div>
+            <div class="box">
+                <h3 id="minute">00</h3>
+                <span>minute</span>
+            </div>
+            <div class="box">
+                <h3 id="second">00</h3>
+                <span>second</span>
+            </div>
+        </div>
+
+        <a href="#" class="btn">check the deal</a>
+
+    </div>
+
+</section>
+
+<!-- deal section ends -->
+
+<!-- contact section starts  -->
+
+<section class="contact" id="contact">
+
+    <h1 class="heading"> <span>contact</span> us </h1>
+
+    <form action="">
+
+        <div class="inputBox">
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+        </div>
+
+        <div class="inputBox">
+            <input type="number" placeholder="Number">
+            <input type="text" placeholder="Subject">
+        </div>
+
+        <textarea placeholder="Message" name="" id="" cols="30" rows="10"></textarea>
+
+        <input type="submit" value="send message" class="btn">
+
+    </form>
+
+</section>
+
+<!-- contact section ends -->
+
+<!-- newsletter section starts  -->
+
+<section class="newsletter">
+
+    <h3>Feel free to give us your feedback</h3>
+
+    <form action="">
+        <input class="box" type="email" placeholder="Enter your email">
+        <input type="submit" value="feedback" class="btn">
+    </form>
+
+</section>
+
+
+{% endblock content %}
